@@ -32,19 +32,24 @@ public class PracticeFormWithPageObjectTest {
                 .setUserNumber("9091234455")
                 .setBirthDate("30", "July", "2000")
                 .setSubject("Maths")
-                .setHobbies()
+                .setHobbies("Reading")
                 .uploadFile("test.jpg")
                 .setcurrentAddress("424000, Russia, Moscow, Arbat street, 123")
                 .selectState("Haryana")
-                .selectCity("Karnal");
-        $("#submit").click();
+                .selectCity("Karnal")
+                .clickSubmit();
 
         registrationFormPage.checkModalVisible()
                 .checkResult("Student Name", "Irina Testova")
                 .checkResult("Student Email", "test@test.ru")
                 .checkResult("Gender", "Female")
                 .checkResult("Mobile", "9091234455")
-                .checkResult("Date of Birth", "30 July,2000");
+                .checkResult("Date of Birth", "30 July,2000")
+                .checkResult("Subjects", "Maths")
+                .checkResult("Hobbies", "Reading")
+                .checkResult("Picture", "test.jpg")
+                .checkResult("Address", "424000, Russia, Moscow, Arbat street, 123")
+                .checkResult("State and City", "Haryana Karnal");
 
     }
 }

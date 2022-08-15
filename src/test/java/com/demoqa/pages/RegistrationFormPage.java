@@ -86,8 +86,8 @@ public class RegistrationFormPage {
         return this;
     }
 
-    public RegistrationFormPage setHobbies() {
-        $(byText("Reading")).click();
+    public RegistrationFormPage setHobbies(String value) {
+        $("#hobbiesWrapper").$(byText(value)).click();
 
         return this;
     }
@@ -114,6 +114,12 @@ public class RegistrationFormPage {
     public RegistrationFormPage selectCity(String value) {
         $(byText("Select City")).click();
         $(byText(value)).click();
+
+        return this;
+    }
+
+    public RegistrationFormPage clickSubmit() {
+        $("#submit").click();
 
         return this;
     }
