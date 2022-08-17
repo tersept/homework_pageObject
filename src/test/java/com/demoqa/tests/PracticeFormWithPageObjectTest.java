@@ -1,54 +1,78 @@
 package com.demoqa.tests;
 
-import com.codeborne.selenide.Configuration;
 import com.demoqa.pages.RegistrationFormPage;
-import com.demoqa.pages.components.ResultsModalComponent;
-import org.junit.jupiter.api.BeforeAll;
+import com.demoqa.pages.TestBase;
+import com.github.javafaker.Faker;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.appear;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
+import java.util.Locale;
 
-public class PracticeFormWithPageObjectTest {
+public class PracticeFormWithPageObjectTest extends TestBase {
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
-    ResultsModalComponent resultsModalComponent = new ResultsModalComponent();
+    Faker faker = new Faker(new Locale("ru"));
 
-    @BeforeAll
-    static void configure() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
+    String firstName,
+            lastName,
+            userEmail,
+            userNumber,
+            dayS,
+            month,
+            year,
+            zip,
+            country,
+            city,
+            street,
+            house;
+    int day;
+
+    @BeforeEach
+    void prepareTestData() {
+        firstName = faker.name().firstName();
+        lastName = faker.name().lastName();
+        userEmail = faker.internet().emailAddress("en");
+        userNumber = faker.phoneNumber().subscriberNumber(10);
+        day = faker.number().numberBetween(1, 30);
+        if (day < 10) {
+            dayS = "0" + day;
+        } else dayS = day + "";
+        year = faker.number().numberBetween(1940, 2020) + "";
+        zip = faker.address().zipCode();
+        country = faker.address().country();
+        city = faker.address().city();
+        street = faker.address().streetAddress();
+        house = faker.address().streetAddressNumber();
     }
+
 
     @Test
     void fillForm() {
 
         registrationFormPage.openPage()
-                .setFirstName("Irina")
-                .setLastName("Testova")
-                .setUserEmail("test@test.ru")
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setUserEmail(userEmail)
                 .setGender("Female")
-                .setUserNumber("9091234455")
-                .setBirthDate("30", "July", "2000")
+                .setUserNumber(userNumber)
+                .setBirthDate(dayS, "July", year)
                 .setSubject("Maths")
                 .setHobbies("Reading")
                 .uploadFile("test.jpg")
-                .setcurrentAddress("424000, Russia, Moscow, Arbat street, 123")
+                .setcurrentAddress(zip + "," + country + "," + city + "," + street + ", " + house)
                 .selectState("Haryana")
                 .selectCity("Karnal")
                 .clickSubmit();
 
         registrationFormPage.checkModalVisible()
-                .checkResult("Student Name", "Irina Testova")
-                .checkResult("Student Email", "test@test.ru")
+                .checkResult("Student Name", firstName + " " + lastName)
+                .checkResult("Student Email", userEmail)
                 .checkResult("Gender", "Female")
-                .checkResult("Mobile", "9091234455")
-                .checkResult("Date of Birth", "30 July,2000")
+                .checkResult("Mobile", userNumber)
+                .checkResult("Date of Birth", day + " July," + year)
                 .checkResult("Subjects", "Maths")
                 .checkResult("Hobbies", "Reading")
                 .checkResult("Picture", "test.jpg")
-                .checkResult("Address", "424000, Russia, Moscow, Arbat street, 123")
+                .checkResult("Address", zip + "," + country + "," + city + "," + street + ", " + house)
                 .checkResult("State and City", "Haryana Karnal");
 
     }
