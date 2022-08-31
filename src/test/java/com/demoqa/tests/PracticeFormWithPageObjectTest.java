@@ -1,14 +1,23 @@
 package com.demoqa.tests;
 
+import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.demoqa.pages.RegistrationFormPage;
 import com.demoqa.pages.TestBase;
 import com.github.javafaker.Faker;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 import java.util.Locale;
 
 public class PracticeFormWithPageObjectTest extends TestBase {
+
+    //SelenideLogger.addListener("allure",new AllureSelenide);
+
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
     Faker faker = new Faker(new Locale("ru"));
 
@@ -57,6 +66,10 @@ public class PracticeFormWithPageObjectTest extends TestBase {
         house = faker.address().streetAddressNumber();
     }
 
+    @Attachment(value = "Скриншот", type = "image/png", fileExtension = "png")
+    public byte[] attachScreenshot() {
+        return ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
+    }
 
     @Test
     void fillForm() {
@@ -76,6 +89,7 @@ public class PracticeFormWithPageObjectTest extends TestBase {
                 .selectCity(userCity)
                 .clickSubmit();
 
+
         registrationFormPage.checkModalVisible()
                 .checkResult("Student Name", firstName + " " + lastName)
                 .checkResult("Student Email", userEmail)
@@ -87,6 +101,6 @@ public class PracticeFormWithPageObjectTest extends TestBase {
                 .checkResult("Picture", userFileName)
                 .checkResult("Address", zip + ", " + country + ", " + city + ", " + street + ", " + house)
                 .checkResult("State and City", userState + " " + userCity);
-
+        attachScreenshot();
     }
 }
