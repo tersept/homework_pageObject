@@ -1,12 +1,12 @@
 package com.demoqa.tests;
 
 import com.codeborne.selenide.WebDriverRunner;
-import com.codeborne.selenide.logevents.SelenideLogger;
 import com.demoqa.pages.RegistrationFormPage;
 import com.demoqa.pages.TestBase;
 import com.github.javafaker.Faker;
+import helpers.Attach;
 import io.qameta.allure.Attachment;
-import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.OutputType;
@@ -102,5 +102,12 @@ public class PracticeFormWithPageObjectTest extends TestBase {
                 .checkResult("Address", zip + ", " + country + ", " + city + ", " + street + ", " + house)
                 .checkResult("State and City", userState + " " + userCity);
         attachScreenshot();
+    }
+
+    @AfterEach
+    void AddAttachments() {
+        Attach.screenshotAs("Last screenshots");
+        Attach.pageSource();
+        Attach.browserConsoleLogs();
     }
 }
