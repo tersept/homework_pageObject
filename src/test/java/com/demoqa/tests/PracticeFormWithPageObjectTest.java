@@ -109,5 +109,6 @@ public class PracticeFormWithPageObjectTest extends TestBase {
         Attach.screenshotAs("Last screenshots");
         Attach.pageSource();
         Attach.browserConsoleLogs();
+        Attach.addVideo();
     }
 }
