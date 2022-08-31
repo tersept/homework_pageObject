@@ -14,6 +14,8 @@ import org.openqa.selenium.TakesScreenshot;
 
 import java.util.Locale;
 
+import static io.qameta.allure.Allure.step;
+
 public class PracticeFormWithPageObjectTest extends TestBase {
 
     //SelenideLogger.addListener("allure",new AllureSelenide);
@@ -73,35 +75,36 @@ public class PracticeFormWithPageObjectTest extends TestBase {
 
     @Test
     void fillForm() {
-
-        registrationFormPage.openPage()
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .setUserEmail(userEmail)
-                .setGender(userGender)
-                .setUserNumber(userNumber)
-                .setBirthDate(dayS, month, year)
-                .setSubject(userSubject)
-                .setHobbies(userHobbies)
-                .uploadFile(userFileName)
-                .setcurrentAddress(zip + ", " + country + ", " + city + ", " + street + ", " + house)
-                .selectState(userState)
-                .selectCity(userCity)
-                .clickSubmit();
-
-
-        registrationFormPage.checkModalVisible()
-                .checkResult("Student Name", firstName + " " + lastName)
-                .checkResult("Student Email", userEmail)
-                .checkResult("Gender", userGender)
-                .checkResult("Mobile", userNumber)
-                .checkResult("Date of Birth", day + " " + month + "," + year)
-                .checkResult("Subjects", userSubject)
-                .checkResult("Hobbies", userHobbies)
-                .checkResult("Picture", userFileName)
-                .checkResult("Address", zip + ", " + country + ", " + city + ", " + street + ", " + house)
-                .checkResult("State and City", userState + " " + userCity);
-        attachScreenshot();
+        step("Заполняем форму", () -> {
+            registrationFormPage.openPage()
+                    .setFirstName(firstName)
+                    .setLastName(lastName)
+                    .setUserEmail(userEmail)
+                    .setGender(userGender)
+                    .setUserNumber(userNumber)
+                    .setBirthDate(dayS, month, year)
+                    .setSubject(userSubject)
+                    .setHobbies(userHobbies)
+                    .uploadFile(userFileName)
+                    .setcurrentAddress(zip + ", " + country + ", " + city + ", " + street + ", " + house)
+                    .selectState(userState)
+                    .selectCity(userCity)
+                    .clickSubmit();
+        });
+        step("Проверяем правильность заполнения", () -> {
+            registrationFormPage.checkModalVisible()
+                    .checkResult("Student Name", firstName + " " + lastName)
+                    .checkResult("Student Email", userEmail)
+                    .checkResult("Gender", userGender)
+                    .checkResult("Mobile", userNumber)
+                    .checkResult("Date of Birth", day + " " + month + "," + year)
+                    .checkResult("Subjects", userSubject)
+                    .checkResult("Hobbies", userHobbies)
+                    .checkResult("Picture", userFileName)
+                    .checkResult("Address", zip + ", " + country + ", " + city + ", " + street + ", " + house)
+                    .checkResult("State and City", userState + " " + userCity);
+            attachScreenshot();
+        });
     }
 
     @AfterEach
