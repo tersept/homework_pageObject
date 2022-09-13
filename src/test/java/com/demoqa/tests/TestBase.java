@@ -1,4 +1,4 @@
-package com.demoqa.pages;
+package com.demoqa.tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
@@ -19,14 +19,20 @@ public class TestBase {
     static void configure() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         DesiredCapabilities capabilities = new DesiredCapabilities();
-//        capabilities.setCapability("browserName", "chrome");
-//        capabilities.setCapability("browserVersion", "100.0");
-        capabilities.setCapability("enableVNC", true);
-        capabilities.setCapability("enableVideo", true);
 
         Configuration.browserCapabilities = capabilities;
+
+        if (System.getProperty("SELENIDE_REMOTE") != null) {
+            capabilities.setCapability("enableVNC", true);
+            capabilities.setCapability("enableVideo", true);
+            Configuration.browser = System.getProperty("browser_name");
+            Configuration.browserVersion = System.getProperty("browser_version");
+            Configuration.browserSize = System.getProperty("browser_size");
+            Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        }
+        else {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
-    }
+    }}
 }
