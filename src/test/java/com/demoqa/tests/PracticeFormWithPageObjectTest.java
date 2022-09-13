@@ -2,7 +2,6 @@ package com.demoqa.tests;
 
 import com.codeborne.selenide.WebDriverRunner;
 import com.demoqa.pages.RegistrationFormPage;
-import com.demoqa.pages.TestBase;
 import com.github.javafaker.Faker;
 import helpers.Attach;
 import io.qameta.allure.Attachment;
