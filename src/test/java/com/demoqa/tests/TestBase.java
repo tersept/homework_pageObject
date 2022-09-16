@@ -6,7 +6,9 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import com.demoqa.pages.components.CalendarComponent;
 import com.demoqa.pages.components.FileUploadComponent;
 import com.demoqa.pages.components.ResultsModalComponent;
+import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -32,5 +34,14 @@ public class TestBase {
         Configuration.browserSize = System.getProperty("windowSize", "1920x1080");
         Configuration.browserVersion = System.getProperty("version", "100.0");
 
+    }
+
+    @AfterEach
+    void AddAttachments() {
+        Attach.screenshotAs("Last screenshots");
+        Attach.pageSource();
+        Attach.browserConsoleLogs();
+        Attach.addVideo();
+        closeWebDriver();
     }
 }
