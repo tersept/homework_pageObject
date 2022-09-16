@@ -19,20 +19,16 @@ public class TestBase {
     static void configure() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         DesiredCapabilities capabilities = new DesiredCapabilities();
-
         Configuration.browserCapabilities = capabilities;
 
-        if (System.getProperty("SELENIDE_REMOTE") != null) {
+        if (System.getProperty("selenide.remote") != null) {
+            Configuration.remote = System.getProperty("selenide.remote");
             capabilities.setCapability("enableVNC", true);
             capabilities.setCapability("enableVideo", true);
-            Configuration.browser = System.getProperty("browser_name");
-            Configuration.browserVersion = System.getProperty("browser_version");
-            Configuration.browserSize = System.getProperty("browser_size");
-            Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
         }
-        else {
+
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
-    }}
+        Configuration.browser = System.getProperty("browser", "chrome");
+        Configuration.browserSize = System.getProperty("browser_size", "1920x1080");
+    }
 }
