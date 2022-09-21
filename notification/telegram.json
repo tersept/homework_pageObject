@@ -5,7 +5,7 @@
     "comment": "some comment",
     "reportLink": "",
     "language": "en",
-    "allureFolder": "build/reports/allure-report/allureReport",
+    "allureFolder": "build/allure-report/allureReport/",
     "enableChart": true
   },
   "telegram": {
