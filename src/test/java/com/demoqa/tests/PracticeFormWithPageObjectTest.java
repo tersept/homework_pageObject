@@ -11,6 +11,7 @@ import org.openqa.selenium.TakesScreenshot;
 
 import java.util.Locale;
 
+import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 
 public class PracticeFormWithPageObjectTest extends TestBase {
